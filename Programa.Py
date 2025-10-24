@@ -23,7 +23,7 @@ class Casa:
         self.Representante = RepresentanteNuevo
     def MostrarInformacion(self):
         print(f"{self.Numero}")
-        print(f"{self.Representante.MostrarInformacionRepresentante()}")
+        self.Representante.MostrarInformacionRepresentante()
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
 
@@ -34,4 +34,26 @@ class Representante:
     def MostrarInfoRepresentante(self):
         print(f"Nombre:                 {self.Nombre}")
         print(f"Numero de telefono:     {self.Telefono}")
+
+def TryCatchInt(ListaOpciones, Texto):
+    while True:
+        while True:
+            try:
+                Ingresar = int(input(Texto).strip())
+            except ValueError:
+                print("Ingrese un valor valido")
+            else: break
+        if ListaOpciones:
+            if Ingresar in ListaOpciones:
+                return Ingresar
+            else: print("Intentelo nuevamente")
+        elif not ListaOpciones:
+            return Ingresar
+
+def TryCatchString(Texto):
+    while True:
+        Ingresar = input(Texto).strip().title()
+        if Ingresar == "":
+            print("Ingrese un texto valido")
+
 
