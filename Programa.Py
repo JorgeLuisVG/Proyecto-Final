@@ -66,10 +66,6 @@ def TryCatchString(Texto):
 
 # Funcionamiento del sistema
 
-def ValidarNumeroCasa():
-    NumeroCasa = TryCatchString("Ingrese el numero de la casa")
-    
-
 while True:
     print("Residenciales Piedra Azul")
     print("1 = Registrar casa")
