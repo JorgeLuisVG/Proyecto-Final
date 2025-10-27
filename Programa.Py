@@ -1,17 +1,4 @@
-class Vehiculo:
-    def __init__(self, Tipo, Placas, Marca):
-        self.Tipo = Tipo
-        self.Placas = Placas
-        self.Marca = Marca
-    def MosrtrarInformacionVehiculos(self):
-        print(f"Tipo de Vehiculo:       {self.Tipo}")
-        print(f"Marca:                  {self.Marca}")
-        print(f"Placas:                 {self.Placas}")
-    def __del__(self):
-        print(f"EL vehiculo:")
-        self.MosrtrarInformacionVehiculos()
-        print(f"Esta siendo eliminado")
-
+# clases
 class Casa:
     def __init__(self, Numero, Calle, Representante):
         self.Numero = Numero
@@ -28,6 +15,27 @@ class Casa:
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
 
+class Usuario:
+    def __init__(self, Nombre, Contraseña):
+        self.Nombre = Nombre
+        self.Contraseña = Contraseña
+    def CambiarContraseña(self, NuevaContraseña):
+        self.Contraseña = NuevaContraseña
+
+class Vehiculo:
+    def __init__(self, Tipo, Placas, Marca):
+        self.Tipo = Tipo
+        self.Placas = Placas
+        self.Marca = Marca
+    def MosrtrarInformacionVehiculos(self):
+        print(f"Tipo de Vehiculo:       {self.Tipo}")
+        print(f"Marca:                  {self.Marca}")
+        print(f"Placas:                 {self.Placas}")
+    def __del__(self):
+        print(f"EL vehiculo:")
+        self.MosrtrarInformacionVehiculos()
+        print(f"Esta siendo eliminado")
+
 class Representante:
     def __init__(self, Nombre, Telefono):
         self.Nombre = Nombre
@@ -36,13 +44,7 @@ class Representante:
         print(f"Nombre:                 {self.Nombre}")
         print(f"Numero de telefono:     {self.Telefono}")
 
-class Usuario:
-    def __init__(self, Nombre, Contraseña):
-        self.Nombre = Nombre
-        self.Contraseña = Contraseña
-    def CambiarContraseña(self, NuevaContraseña):
-        self.Contraseña = NuevaContraseña
-
+# Funciones
 def TryCatchInt(ListaOpciones, Texto):
     while True:
         while True:
@@ -58,14 +60,22 @@ def TryCatchInt(ListaOpciones, Texto):
         elif not ListaOpciones:
             return Ingresar
 
-def TryCatchString(Texto):
+def TryCatchString(Texto, Lista):
     while True:
-        Ingresar = input(f"{Texto} ").strip().title()
-        if Ingresar == "":
-            print("Ingrese un texto valido")
+        while True:
+            Ingresar = input(f"{Texto} ").strip().title()
+            if Ingresar == "":
+                print("Ingrese un texto valido")
+            else: break
+        if Lista== None:
+            return Ingresar
+        elif Lista:
+            if Ingresar in Lista:
+                return Ingresar
+            else:
+                print("Ingrese un valor valido")
 
 # Funcionamiento del sistema
-
 while True:
     print("Residenciales Piedra Azul")
     print("1 = Registrar casa")
@@ -75,7 +85,7 @@ while True:
     Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción")
 
     if Opcion == 1:
-        NumCasa = 0
+        NumCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
     elif Opcion == 2:
         print()
     elif Opcion == 3:
