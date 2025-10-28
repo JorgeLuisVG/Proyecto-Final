@@ -94,6 +94,18 @@ def OrdenarCasa(House):
     elif House.Calle == 3:
         ListaCalle3.append(House)
 
+def QuickSort(Lista):
+    if len(Lista) <= 1:
+        return Lista
+    
+    pivote = Lista[len(Lista)//2].Numero
+
+    menores = [House for House in Lista if House.Numero < pivote]
+    iguales = [House for House in Lista if House.Numero == pivote]
+    mayores = [House for House in Lista if House.Numero > pivote]
+
+    return QuickSort(menores) + iguales + QuickSort(mayores)
+
 ListaCalle1 = []
 ListaCalle2 = []
 ListaCalle3 = []
@@ -121,3 +133,7 @@ while True:
     elif Opcion == 10:
         break
     print()
+    
+    ListaCalle1 = QuickSort(ListaCalle1)
+    ListaCalle2 = QuickSort(ListaCalle2)
+    ListaCalle3 = QuickSort(ListaCalle3)
