@@ -106,11 +106,45 @@ def QuickSort(Lista):
 
     return QuickSort(menores) + iguales + QuickSort(mayores)
 
+def ValidarNumeroCasa():
+    def ExplorarNumero(NumeroHouse):
+        if NumeroHouse[0] in [str(N) for N in range(9)]:
+            pass
+        else:
+            return False
+        if NumeroHouse[1] == "-":
+            pass
+        else:
+            return False
+        if NumeroHouse[2] in [str(N) for N in range(9)]:
+            pass
+        else:
+            return False
+        if NumeroHouse[3] in [str(N) for N in range(9)]:
+            pass
+        else:
+            return False
+        return True
+    
+    while True:
+        NumeroValid = True
+        NumeroCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
+        if len(NumeroCasa) == 4:
+            NumeroValid = ExplorarNumero(NumeroCasa)
+            if NumeroValid == True:
+                return NumeroCasa
+            else:
+                print("Ingrese un numero valido")
+        elif len(NumeroCasa) != 4:
+            print("Ingrese un numero Valido")
+
+
+# Funcionamiento del sistema
+
 ListaCalle1 = []
 ListaCalle2 = []
 ListaCalle3 = []
 
-# Funcionamiento del sistema
 while True:
     print("Residenciales Piedra Azul")
     print("1 = Registrar casa")
@@ -133,7 +167,7 @@ while True:
     elif Opcion == 10:
         break
     print()
-    
+
     ListaCalle1 = QuickSort(ListaCalle1)
     ListaCalle2 = QuickSort(ListaCalle2)
     ListaCalle3 = QuickSort(ListaCalle3)
