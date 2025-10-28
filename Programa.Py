@@ -74,6 +74,29 @@ def TryCatchString(Texto, Lista):
                 return Ingresar
             else:
                 print("Ingrese un valor valido")
+    
+def IngresarRepresentante():
+    def IngresarTelefono():
+        while True:
+            numero = TryCatchInt(None, "Ingrese el numero telefonico")
+            if len<(numero) == 8:
+                return numero 
+            else: print("Ingrese un numero valido")
+    Nombre = TryCatchString("Ingrese el nombre del representante", None)
+    Telefono = IngresarTelefono()
+    return Nombre, Telefono
+
+def OrdenarCasa(House):
+    if House.Calle == 1:
+        ListaCalle1.append(House)
+    elif House.Calle == 2:
+        ListaCalle2.append(House)
+    elif House.Calle == 3:
+        ListaCalle3.append(House)
+
+ListaCalle1 = []
+ListaCalle2 = []
+ListaCalle3 = []
 
 # Funcionamiento del sistema
 while True:
@@ -86,6 +109,11 @@ while True:
 
     if Opcion == 1:
         NumCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
+        CalleCasa = TryCatchInt([1,2,3], "Ingrese el numero de la calle de la casa")
+        RepreNombre, RepreNum = IngresarRepresentante()
+        NuevoRepre = Representante(RepreNombre, RepreNum)
+        NuevaCasa = Casa(NumCasa, CalleCasa, NuevoRepre)
+        OrdenarCasa(NuevaCasa)
     elif Opcion == 2:
         print()
     elif Opcion == 3:
