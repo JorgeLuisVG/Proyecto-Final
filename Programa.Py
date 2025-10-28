@@ -86,7 +86,7 @@ def IngresarRepresentante():
     Telefono = IngresarTelefono()
     return Nombre, Telefono
 
-def OrdenarCasa(House):
+def OrdenarCasas(House):
     if House.Calle == 1:
         ListaCalle1.append(House)
     elif House.Calle == 2:
@@ -138,6 +138,26 @@ def ValidarNumeroCasa():
         elif len(NumeroCasa) != 4:
             print("Ingrese un numero Valido")
 
+def BuscarCasa(Numero, CalleB):
+    Encontrado = True
+    if CalleB == 1:
+        for Casita in ListaCalle1:
+            if Casita.Numero == Numero:
+                return Casita
+            else: Encontrado == False
+    elif CalleB == 2:
+        for Casita in ListaCalle2:
+            if Casita.Numero == Numero:
+                return Casita
+            else: Encontrado == False
+    elif CalleB == 3:
+        for Casita in ListaCalle3:
+            if Casita.Numero == Numero:
+                return Casita
+            else: Encontrado == False
+    if Encontrado == False:
+        print("La casa que busca no existe")
+        return None
 
 # Funcionamiento del sistema
 
@@ -154,14 +174,16 @@ while True:
     Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción")
 
     if Opcion == 1:
-        NumCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
+        NumCasa = ValidarNumeroCasa()
         CalleCasa = TryCatchInt([1,2,3], "Ingrese el numero de la calle de la casa")
         RepreNombre, RepreNum = IngresarRepresentante()
         NuevoRepre = Representante(RepreNombre, RepreNum)
         NuevaCasa = Casa(NumCasa, CalleCasa, NuevoRepre)
-        OrdenarCasa(NuevaCasa)
+        OrdenarCasas(NuevaCasa)
     elif Opcion == 2:
-        print()
+        NumBucar = ValidarNumeroCasa()
+        calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+        House = BuscarCasa(NumBucar, calle)
     elif Opcion == 3:
         print()
     elif Opcion == 10:
