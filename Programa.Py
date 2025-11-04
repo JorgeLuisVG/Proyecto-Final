@@ -78,11 +78,11 @@ def TryCatchString(Texto, Lista):
 def IngresarRepresentante():
     def IngresarTelefono():
         while True:
-            numero = TryCatchInt(None, "Ingrese el numero telefonico")
+            numero = TryCatchInt(None, "Ingrese el numero telefonico: ")
             if len<(numero) == 8:
                 return numero 
             else: print("Ingrese un numero valido")
-    Nombre = TryCatchString("Ingrese el nombre del representante", None)
+    Nombre = TryCatchString("Ingrese el nombre del representante: ", None)
     Telefono = IngresarTelefono()
     return Nombre, Telefono
 
@@ -108,28 +108,22 @@ def QuickSort(Lista):
 
 def ValidarNumeroCasa():
     def ExplorarNumero(NumeroHouse):
-        if NumeroHouse[0] in [str(N) for N in range(9)]:
+        if NumeroHouse[0] in [str(N) for N in range(9)] and NumeroHouse[1] == "-" and NumeroHouse[2] in [str(N) for N in range(9)] and NumeroHouse[3] in [str(N) for N in range(9)]:
             pass
         else:
             return False
-        if NumeroHouse[1] == "-":
-            pass
+        if NumeroHouse[4]:
+            if NumeroHouse[4] in [str(N) for N in range(9)]:
+                pass
+            else: return False
         else:
-            return False
-        if NumeroHouse[2] in [str(N) for N in range(9)]:
             pass
-        else:
-            return False
-        if NumeroHouse[3] in [str(N) for N in range(9)]:
-            pass
-        else:
-            return False
         return True
     
     while True:
         NumeroValid = True
         NumeroCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
-        if len(NumeroCasa) == 4:
+        if 4 <= len(NumeroCasa) <= 5:
             NumeroValid = ExplorarNumero(NumeroCasa)
             if NumeroValid == True:
                 return NumeroCasa
@@ -175,7 +169,7 @@ while True:
 
     if Opcion == 1:
         NumCasa = ValidarNumeroCasa()
-        CalleCasa = TryCatchInt([1,2,3], "Ingrese el numero de la calle de la casa")
+        CalleCasa = TryCatchInt([1,2,3], "Ingrese el numero de la calle de la casa: ")
         RepreNombre, RepreNum = IngresarRepresentante()
         NuevoRepre = Representante(RepreNombre, RepreNum)
         NuevaCasa = Casa(NumCasa, CalleCasa, NuevoRepre)
