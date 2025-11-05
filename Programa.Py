@@ -110,7 +110,7 @@ def ValidarNumeroCasa():
     def ExplorarNumero(NumeroHouse):
         if NumeroHouse[0] in [str(N) for N in range(9)] and NumeroHouse[1] == "-" and NumeroHouse[2] in [str(N) for N in range(9)] and NumeroHouse[3] in [str(N) for N in range(9)]:
             pass
-        else:
+        else: 
             return False
         if NumeroHouse[4]:
             if NumeroHouse[4] in [str(N) for N in range(9)]:
@@ -153,11 +153,16 @@ def BuscarCasa(Numero, CalleB):
         print("La casa que busca no existe")
         return None
 
-# Funcionamiento del sistema
-
+# Manejo de datos
+    # Lista de calles
 ListaCalle1 = []
 ListaCalle2 = []
 ListaCalle3 = []
+
+    # Lista de usuarios
+ListaUsuarios = []
+
+# Funcionamiento del sistema
 
 while True:
     print("Residenciales Piedra Azul")
