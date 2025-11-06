@@ -14,21 +14,28 @@ class Casa:
         print("Para cada opcion seleccione (1 = si, 2 = no)")
         OP = TryCatchInt([1,2], "Desea Cambiar al representante?")
         if OP == 1:
+            del self.Representante
             RepreNombre, RepreNum = IngresarRepresentante()
             self.Representante = Representante(RepreNombre, RepreNum)
         else: pass
+
         OP = TryCatchInt([1,2], "Desea hacer cambios en los vehiculos?")
         if OP == 1:
             OP = TryCatchInt([1,2], "Desea eliminar un vehiculo?")
             if OP == 1:
-                if len(self.Vehiculos) == 1:
-                    OP = TryCatchInt([1,2], f"Desea eliminar el vehiculo: {self.Vehiculos}?")
-
                 for i in self.Vehiculos:
                     i.MosrtrarInformacionVehiculos()
                     print()
-                
-                
+                while True:
+                    placa = TryCatchString("Ingrese la placa que desea eliminar")
+                    Verificada = VerificarPlaca(placa)
+                    if Verificada == True:
+                        for i in self.Vehiculos:
+                            if placa == i.Placas:
+                                del i
+                                break
+                    else: print("Ingrese una placa valida") 
+
         else: pass
 
     def VerCuota(self, CA):
@@ -73,6 +80,9 @@ class Representante:
     def MostrarInfoRepresentante(self):
         print(f"Nombre:                 {self.Nombre}")
         print(f"Numero de telefono:     {self.Telefono}")
+    def __del__(self):
+        print("Se está eliminando al representante")
+
 
 # Funciones
 def TryCatchInt(ListaOpciones, Texto):
@@ -182,6 +192,13 @@ def BuscarCasa(Numero, CalleB):
     if Encontrado == False:
         print("La casa que busca no existe")
         return None
+
+def VerificarPlaca(Placa):
+    ListABC = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    ListNum = [str(n) for n in range(9)]
+    if Placa[0] in ListABC and Placa[1] in ListABC and Placa[2] in ListABC and Placa[3] in ListNum and Placa[4] in ListNum and Placa[5] in ListNum:
+        return True
+    else: return False
 
 # Manejo de datos
     # Lista de calles
