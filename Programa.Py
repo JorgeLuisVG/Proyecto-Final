@@ -6,31 +6,40 @@ class Casa:
         self.Representante = Representante
         self.Vehiculos = [] 
         self.PagoMensual = False
-    def AñadirVehiculos(self, vehiculo):
-        self.Vehiculos.append(vehiculo)
     def ActualizarInfo(self):
-        def BorrarVehiculo(Vh):
-            del Vh
-        print("Para cada opcion seleccione (1 = si, 2 = no)")
-        OP = TryCatchInt([1,2], "Desea Cambiar al representante?")
-        if OP == 1:
-            RepreNombre, RepreNum = IngresarRepresentante()
-            self.Representante = Representante(RepreNombre, RepreNum)
-        else: pass
-        OP = TryCatchInt([1,2], "Desea hacer cambios en los vehiculos?")
-        if OP == 1:
-            OP = TryCatchInt([1,2], "Desea eliminar un vehiculo?")
+        while True:
+            print("1 = Cambiar representante")
+            print("2 = Hacer cammbios en los vehiculos")
+            print("3 = salir")
+            OP = TryCatchInt([1,2,3], "Ingrese una opcion: ")
             if OP == 1:
-                if len(self.Vehiculos) == 1:
-                    OP = TryCatchInt([1,2], f"Desea eliminar el vehiculo: {self.Vehiculos}?")
-
-                for i in self.Vehiculos:
-                    i.MosrtrarInformacionVehiculos()
-                    print()
-                
-                
-        else: pass
-
+                del self.Representante
+                RepreNombre, RepreNum = IngresarRepresentante()
+                self.Representante = Representante(RepreNombre, RepreNum)
+            elif OP == 2:
+                while True:
+                    print("1 = Eliminar vehiculo")
+                    print("2 = Añadir vehiculo")
+                    print("3 = Salir")
+                    OP = TryCatchInt([1, 2, 3], "Ingrese una opcion")
+                    if OP == 1:
+                        for i in self.Vehiculos:
+                            i.MostrarInformacionVehiculos()
+                            print()
+                        while True:
+                            placa = TryCatchString("Ingrese la placa que desea eliminar")
+                            Verificada = VerificarPlaca(placa)
+                            if Verificada == True:
+                                for i in self.Vehiculos:
+                                    if placa == i.Placas:
+                                        del i
+                                        break
+                            else: print("Ingrese una placa valida") 
+                    elif OP == 2:
+                        NuevoVehiculo = CrearVehiculo()
+                        self.Vehiculos.append(NuevoVehiculo)
+                    elif OP == 3: break
+            else: break
     def VerCuota(self, CA):
         Total = CA 
         if len(self.Vehiculos) > 2:
@@ -57,13 +66,13 @@ class Vehiculo:
         self.Tipo = Tipo
         self.Placas = Placas
         self.Marca = Marca
-    def MosrtrarInformacionVehiculos(self):
+    def MostrarInformacionVehiculos(self):
         print(f"Tipo de Vehiculo:       {self.Tipo}")
         print(f"Marca:                  {self.Marca}")
         print(f"Placas:                 {self.Placas}")
     def __del__(self):
         print(f"EL vehiculo:")
-        self.MosrtrarInformacionVehiculos()
+        self.MostrarInformacionVehiculos()
         print(f"Esta siendo eliminado")
 
 class Representante:
@@ -73,6 +82,8 @@ class Representante:
     def MostrarInfoRepresentante(self):
         print(f"Nombre:                 {self.Nombre}")
         print(f"Numero de telefono:     {self.Telefono}")
+    def __del__(self):
+        print("Se está eliminando al representante")
 
 # Funciones
 def TryCatchInt(ListaOpciones, Texto):
@@ -104,7 +115,30 @@ def TryCatchString(Texto, Lista):
                 return Ingresar
             else:
                 print("Ingrese un valor valido")
-    
+
+def VerificarPlaca(Placa):
+    ListABC = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    ListNum = [str(n) for n in range(9)]
+    if Placa[0] in ListABC and Placa[1] in ListABC and Placa[2] in ListABC and Placa[3] in ListNum and Placa[4] in ListNum and Placa[5] in ListNum:
+        return True
+    else: return False
+
+def CrearVehiculo():
+    while True:
+        while True:
+            Placa = input("Ingrese la placa del vehiculo: ").upper().strip()
+            if VerificarPlaca(Placa) == True:
+                break
+            else: print("Ingrese una placa valida")
+        Tipo = TryCatchString("Ingrese el tipo de vehiculo que es (Carro, Moto, Vehiculo pesado)", ["Carro", "Moto", "Vehiculo pesado"])
+        Marca = TryCatchString("Ingrese la marca del vehiculo", None)
+        print(f"Se creara el vehiculo tipo {Tipo}: {Marca} con placas: {Placa}")
+        Fun = TryCatchInt([1,2], "Es correcto? (1 = si, 2 = no)")
+        if Fun == 1: 
+            NuevoVehiculo = Vehiculo(Tipo, Placa, Marca)
+            return NuevoVehiculo
+        else: pass
+
 def IngresarRepresentante():
     def IngresarTelefono():
         while True:
@@ -231,8 +265,6 @@ while True:
             calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
             House = BuscarCasa(NumBucar, calle)
             print()
-
-
 
     elif Opcion == 10:
         break
