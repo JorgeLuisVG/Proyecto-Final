@@ -8,12 +8,28 @@ class Casa:
         self.PagoMensual = False
     def AñadirVehiculos(self, vehiculo):
         self.Vehiculos.append(vehiculo)
-    def ActualizarInformacionRepresentante(self, RepresentanteNuevo):
-        self.Representante = RepresentanteNuevo
     def ActualizarInfo(self):
+        def BorrarVehiculo(Vh):
+            del Vh
         print("Para cada opcion seleccione (1 = si, 2 = no)")
         OP = TryCatchInt([1,2], "Desea Cambiar al representante?")
         if OP == 1:
+            RepreNombre, RepreNum = IngresarRepresentante()
+            self.Representante = Representante(RepreNombre, RepreNum)
+        else: pass
+        OP = TryCatchInt([1,2], "Desea hacer cambios en los vehiculos?")
+        if OP == 1:
+            OP = TryCatchInt([1,2], "Desea eliminar un vehiculo?")
+            if OP == 1:
+                if len(self.Vehiculos) == 1:
+                    OP = TryCatchInt([1,2], f"Desea eliminar el vehiculo: {self.Vehiculos}?")
+
+                for i in self.Vehiculos:
+                    i.MosrtrarInformacionVehiculos()
+                    print()
+                
+                
+        else: pass
 
     def VerCuota(self, CA):
         Total = CA 
