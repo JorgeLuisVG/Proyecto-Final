@@ -4,13 +4,27 @@ class Casa:
         self.Numero = Numero
         self.Calle= Calle
         self.Representante = Representante
-        self.Vehiculos = []
+        self.Vehiculos = [] 
+        self.PagoMensual = False
     def AñadirVehiculos(self, vehiculo):
         self.Vehiculos.append(vehiculo)
     def ActualizarInformacionRepresentante(self, RepresentanteNuevo):
         self.Representante = RepresentanteNuevo
+    def ActualizarInfo(self):
+        print("Para cada opcion seleccione (1 = si, 2 = no)")
+        OP = TryCatchInt([1,2], "Desea Cambiar al representante?")
+        if OP == 1:
+
+    def VerCuota(self, CA):
+        Total = CA 
+        if len(self.Vehiculos) > 2:
+            Total += (len(self.Vehiculos)-2)*10
+        else: pass
+        return f"El total es: {Total}"
+    def ActualizarPago(self):
+        self.PagoMensual = True
     def MostrarInformacion(self):
-        print(f"{self.Numero} calle: ")
+        print(f"{self.Numero} calle: {self.Calle}")
         self.Representante.MostrarInformacionRepresentante()
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
@@ -161,6 +175,8 @@ ListaCalle3 = []
 
     # Lista de usuarios
 ListaUsuarios = []
+    # Cuota actual 
+CuotaActual = 0
 
 # Funcionamiento del sistema
 
@@ -180,11 +196,28 @@ while True:
         NuevaCasa = Casa(NumCasa, CalleCasa, NuevoRepre)
         OrdenarCasas(NuevaCasa)
     elif Opcion == 2:
-        NumBucar = ValidarNumeroCasa()
-        calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
-        House = BuscarCasa(NumBucar, calle)
+        while True:
+            print("Busque la casa")
+            NumBucar = ValidarNumeroCasa()
+            calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+            House = BuscarCasa(NumBucar, calle)
+            print(f"Se cancelará la cuota de la casa: {House.Numero} calle: {House.Calle}")
+            Pagar = TryCatchInt([1, 2], "Es correcto? (1 = si, 2 = No)")
+            if Pagar == 1: 
+                House.ActualizarPago()
+                break
+            else:
+                pass
     elif Opcion == 3:
-        print()
+        while True:
+            print("Busque la casa")
+            NumBucar = ValidarNumeroCasa()
+            calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+            House = BuscarCasa(NumBucar, calle)
+            print()
+
+
+
     elif Opcion == 10:
         break
     print()
