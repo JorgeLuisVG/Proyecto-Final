@@ -126,3 +126,14 @@ def BuscarCasa(Numero, CalleB):
         print("Calle inválida")
     return None
 
+def OrdenarUsuarios(Lista):
+    if len(Lista) <= 1:
+        return Lista
+    
+    pivote = Lista[len(Lista)//2].Nombre
+
+    menores = [User for User in Lista if User.Nombre < pivote]
+    iguales = [User for User in Lista if User.Nombre == pivote]
+    mayores = [User for User in Lista if User.ombre > pivote]
+
+    return OrdenarUsuarios(menores) + iguales + OrdenarUsuarios(mayores)
