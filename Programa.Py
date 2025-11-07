@@ -229,47 +229,93 @@ ListaUsuarios = []
 CuotaActual = 0
 
 # Funcionamiento del sistema
+def Menu():
+    while True:
+        print("Residenciales Piedra Azul")
+        print("1 = Registrar casa")
+        print("2 = Registrar casas que ya pagaron su cuota")
+        print("3 = Actualizar Informacion de las casas")
+        print("10 = salir")
+        Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción")
+
+        if Opcion == 1:
+            NumCasa = ValidarNumeroCasa()
+            CalleCasa = TryCatchInt([1,2,3], "Ingrese el numero de la calle de la casa: ")
+            RepreNombre, RepreNum = IngresarRepresentante()
+            NuevoRepre = Representante(RepreNombre, RepreNum)
+            NuevaCasa = Casa(NumCasa, CalleCasa, NuevoRepre)
+            OrdenarCasas(NuevaCasa)
+        elif Opcion == 2:
+            while True:
+                print("Busque la casa")
+                NumBucar = ValidarNumeroCasa()
+                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+                House = BuscarCasa(NumBucar, calle)
+                print(f"Se cancelará la cuota de la casa: {House.Numero} calle: {House.Calle}")
+                Pagar = TryCatchInt([1, 2], "Es correcto? (1 = si, 2 = No)")
+                if Pagar == 1: 
+                    House.ActualizarPago()
+                    break
+                else:
+                    pass
+        elif Opcion == 3:
+            while True:
+                print("Busque la casa")
+                NumBucar = ValidarNumeroCasa()
+                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+                House = BuscarCasa(NumBucar, calle)
+                print()
+                House.ActualizarInfo()
+        elif Opcion == 10:
+            break
+        print()
+
+        ListaCalle1 = QuickSort(ListaCalle1)
+        ListaCalle2 = QuickSort(ListaCalle2)
+        ListaCalle3 = QuickSort(ListaCalle3)
+
 
 while True:
-    print("Residenciales Piedra Azul")
-    print("1 = Registrar casa")
-    print("2 = Registrar casas que ya pagaron su cuota")
-    print("3 = Actualizar Informacion de las casas")
-    print("10 = salir")
-    Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción")
+    print("1 = Iniciar sesion")
+    print("2 = Crear Nuevo Usuario")
+    Opcion = TryCatchInt([1,2], "Ingrese una opcion")
 
     if Opcion == 1:
-        NumCasa = ValidarNumeroCasa()
-        CalleCasa = TryCatchInt([1,2,3], "Ingrese el numero de la calle de la casa: ")
-        RepreNombre, RepreNum = IngresarRepresentante()
-        NuevoRepre = Representante(RepreNombre, RepreNum)
-        NuevaCasa = Casa(NumCasa, CalleCasa, NuevoRepre)
-        OrdenarCasas(NuevaCasa)
-    elif Opcion == 2:
+        def busquedaBinaria(Lista, Valor):
+            inicio = 0
+            fin = len(Lista) -1
+
+            while inicio <= fin:
+                medio = (inicio +fin)//2
+                if Lista[medio].Nombre == Valor:
+                    return medio
+                elif Lista[medio].Nombre < Valor:
+                    inicio = medio+1
+                else:
+                    fin = medio -1
+            return False
         while True:
-            print("Busque la casa")
-            NumBucar = ValidarNumeroCasa()
-            calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
-            House = BuscarCasa(NumBucar, calle)
-            print(f"Se cancelará la cuota de la casa: {House.Numero} calle: {House.Calle}")
-            Pagar = TryCatchInt([1, 2], "Es correcto? (1 = si, 2 = No)")
-            if Pagar == 1: 
-                House.ActualizarPago()
+            Name = TryCatchString("Ingrese el nombre del usuario", None)
+            Encontrado = busquedaBinaria(ListaUsuarios, Name)
+            if Encontrado != False:
+                User = ListaUsuarios[Encontrado]
+                break
+            else: print("Ingrese un nombre valido")
+        while True:
+            i = 0
+            Contraseña = TryCatchString("Ingrese su contraseña", None)
+            if Contraseña == User.Contraseña:
+                print("Ingreso valido")
+                Menu()
                 break
             else:
-                pass
-    elif Opcion == 3:
-        while True:
-            print("Busque la casa")
-            NumBucar = ValidarNumeroCasa()
-            calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
-            House = BuscarCasa(NumBucar, calle)
-            print()
+                print("Contraseña incorrecta intentelo nuevamente")
+            if i == 3:
+                print("Saliendo")
 
-    elif Opcion == 10:
-        break
-    print()
+    elif Opcion == 2:
+        Nombre = TryCatchString("Ingrese el nombre del usuario", None)
+        Contraseña = TryCatchString("Ingrese una nueva contraseña", None)
 
-    ListaCalle1 = QuickSort(ListaCalle1)
-    ListaCalle2 = QuickSort(ListaCalle2)
-    ListaCalle3 = QuickSort(ListaCalle3)
+        NuevoUser = Usuario(Nombre, Contraseña)
+        ListaUsuarios.append(NuevoUser)
