@@ -246,6 +246,9 @@ def Menu():
                 NumBucar = ValidarNumeroCasa()
                 calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
                 House = BuscarCasa(NumBucar, calle)
+                if House is None:
+                    print("No se encontró la casa.")
+                    continue
                 print(f"Se cancelará la cuota de la casa: {House.Numero} calle: {House.Calle}")
                 Pagar = TryCatchInt([1, 2], "Es correcto? (1 = si, 2 = No): ")
                 if Pagar == 1: 
@@ -259,6 +262,9 @@ def Menu():
                 NumBucar = ValidarNumeroCasa()
                 calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
                 House = BuscarCasa(NumBucar, calle)
+                if House is None:
+                    print("No se encontró la casa.")
+                    continue
                 print()
                 House.ActualizarInfo()
         elif Opcion == 4:
@@ -270,9 +276,9 @@ def Menu():
             print("Caalle 1")
             MostrarCasas(ListaCalle1)
             print("Caalle 2")
-            MostrarCasas(ListaCalle1)
+            MostrarCasas(ListaCalle2)
             print("Caalle 3")
-            MostrarCasas(ListaCalle1)        
+            MostrarCasas(ListaCalle3)        
         elif Opcion == 10:
             break
         print()
@@ -280,6 +286,18 @@ def Menu():
         ListaCalle1 = QuickSort(ListaCalle1)
         ListaCalle2 = QuickSort(ListaCalle2)
         ListaCalle3 = QuickSort(ListaCalle3)
+
+def OrdenarUsuarios(Lista):
+    if len(Lista) <= 1:
+        return Lista
+    
+    pivote = Lista[len(Lista)//2].Nombre
+
+    menores = [User for User in Lista if User.Nombre < pivote]
+    iguales = [User for User in Lista if User.Nombre == pivote]
+    mayores = [User for User in Lista if User.ombre > pivote]
+
+    return OrdenarUsuarios(menores) + iguales + OrdenarUsuarios(mayores)
 
 while True:
     print("1 = Iniciar sesion")
@@ -308,16 +326,19 @@ while True:
                 break
             else: print("Ingrese un nombre valido")
         while True:
-            i = 0
-            Contraseña = TryCatchString("Ingrese su contraseña: ", None)
-            if Contraseña == User.Contraseña:
-                print("Ingreso valido")
-                Menu()
-                break
-            else:
-                print("Contraseña incorrecta intentelo nuevamente")
-            if i == 3:
-                print("Saliendo")
+            intentos = 0
+            while True:
+                Contraseña = TryCatchString("Ingrese su contraseña: ", None)
+                if Contraseña == User.Contraseña:
+                    print("Ingreso valido")
+                    Menu()
+                    break
+                else:
+                    print("Contraseña incorrecta, intentelo nuevamente")
+                    intentos += 1
+                    if intentos == 3:
+                        print("Demasiados intentos fallidos. Saliendo...")
+                        break
 
     elif Opcion == 2:
         Nombre = TryCatchString("Ingrese el nombre del usuario: ", None)
@@ -327,3 +348,5 @@ while True:
         ListaUsuarios.append(NuevoUser)
 
         print("Usuario creado con exito")
+
+    ListaUsuarios = OrdenarUsuarios(ListaUsuarios)
