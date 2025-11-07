@@ -35,10 +35,9 @@ class Casa:
                             placa = input("Ingrese la placa que desea eliminar: ").upper().strip()
                             Verificada = VerificarPlaca(placa)
                             if Verificada == True:
-                                for i in self.Vehiculos:
-                                    if placa == i.Placas:
-                                        print("Eliminando")
-                                        del i
+                                for i in range(len(self.Vehiculos)):
+                                    if placa == self.Vehiculos[i].Placas:
+                                        del self.Vehiculos[i]
                             else: print("Ingrese una placa valida") 
                             break
                     elif OP == 2:
