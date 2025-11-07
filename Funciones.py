@@ -1,5 +1,6 @@
 from Clases import Vehiculo
 from Main import *
+import os
 
 def TryCatchInt(ListaOpciones, Texto):
     while True:
@@ -31,8 +32,8 @@ def VerificarPlaca(Placa):
     ListNum = [str(n) for n in range(10)]
     return (
         len(Placa) == 6 and
-        all([Placa[0] in ListABC, Placa[1] in ListABC, Placa[2] in ListABC,
-             Placa[3] in ListNum, Placa[4] in ListNum, Placa[5] in ListNum])
+        all([Placa[0] in ListNum, Placa[1] in ListNum, Placa[2] in ListNum,
+             Placa[3] in ListABC, Placa[4] in ListABC, Placa[5] in ListABC])
     )
 
 def CrearVehiculo():
@@ -101,12 +102,9 @@ def ValidarNumeroCasa():
         NumeroCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
         if 4 <= len(NumeroCasa) <= 5:
             NumeroValid = ExplorarNumero(NumeroCasa)
-            if NumeroValid == True:
-                return NumeroCasa
-            else:
-                print("Ingrese un numero valido")
-        elif len(NumeroCasa) != 4:
-            print("Ingrese un numero Valido")
+            if NumeroValid == True: return NumeroCasa
+            else: print("Ingrese un numero valido")
+        elif len(NumeroCasa) != 4: print("Ingrese un numero Valido")
 
 def BuscarCasa(Numero, CalleB):
     lista_calle = None
@@ -122,8 +120,7 @@ def BuscarCasa(Numero, CalleB):
             if Casita.Numero == Numero:
                 return Casita
         print("La casa que busca no existe")
-    else:
-        print("Calle inválida")
+    else: print("Calle inválida")
     return None
 
 def OrdenarUsuarios(Lista):
@@ -134,6 +131,27 @@ def OrdenarUsuarios(Lista):
 
     menores = [User for User in Lista if User.Nombre < pivote]
     iguales = [User for User in Lista if User.Nombre == pivote]
-    mayores = [User for User in Lista if User.ombre > pivote]
+    mayores = [User for User in Lista if User.Nombre > pivote]
 
     return OrdenarUsuarios(menores) + iguales + OrdenarUsuarios(mayores)
+
+def busquedaBinaria(Lista, Valor):
+    inicio = 0
+    fin = len(Lista) -1
+
+    while inicio <= fin:
+        medio = (inicio + fin) // 2
+        if Lista[medio].Nombre == Valor:
+            return medio
+        elif Lista[medio].Nombre < Valor:
+            inicio = medio + 1
+        else:
+            fin = medio -1
+    return -1
+
+def ValidarExistencia(objeto):
+    if objeto: return True
+    else: return False
+
+def LimpiarPantalla():
+    os.system("cls" if os.name == "nt" else "clear")
