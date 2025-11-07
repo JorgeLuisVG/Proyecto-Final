@@ -13,7 +13,6 @@ class Casa:
             print("3 = salir")
             OP = TryCatchInt([1,2,3], "Ingrese una opcion: ")
             if OP == 1:
-                del self.Representante
                 RepreNombre, RepreNum = IngresarRepresentante()
                 self.Representante = Representante(RepreNombre, RepreNum)
             elif OP == 2:
@@ -21,13 +20,13 @@ class Casa:
                     print("1 = Eliminar vehiculo")
                     print("2 = Añadir vehiculo")
                     print("3 = Salir")
-                    OP = TryCatchInt([1, 2, 3], "Ingrese una opcion")
+                    OP = TryCatchInt([1, 2, 3], "Ingrese una opcion: ")
                     if OP == 1:
                         for i in self.Vehiculos:
                             i.MostrarInformacionVehiculos()
                             print()
                         while True:
-                            placa = TryCatchString("Ingrese la placa que desea eliminar")
+                            placa = TryCatchString("Ingrese la placa que desea eliminar: ")
                             Verificada = VerificarPlaca(placa)
                             if Verificada == True:
                                 for i in self.Vehiculos:
@@ -50,7 +49,10 @@ class Casa:
         self.PagoMensual = True
     def MostrarInformacion(self):
         print(f"{self.Numero} calle: {self.Calle}")
-        self.Representante.MostrarInformacionRepresentante()
+        self.Representante.MostrarInfoRepresentante()
+        if self.PagoMensual == False:
+            print(f"Cuota mensual {self.VerCuota()} sin pagar")
+        else: print(f"Cuota mensual {self.VerCuota()} pagada")
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
 
@@ -235,8 +237,9 @@ def Menu():
         print("1 = Registrar casa")
         print("2 = Registrar casas que ya pagaron su cuota")
         print("3 = Actualizar Informacion de las casas")
+        print("4 = Ver Informacion de las casas")
         print("10 = salir")
-        Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción")
+        Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción: ")
 
         if Opcion == 1:
             NumCasa = ValidarNumeroCasa()
@@ -249,10 +252,10 @@ def Menu():
             while True:
                 print("Busque la casa")
                 NumBucar = ValidarNumeroCasa()
-                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
                 House = BuscarCasa(NumBucar, calle)
                 print(f"Se cancelará la cuota de la casa: {House.Numero} calle: {House.Calle}")
-                Pagar = TryCatchInt([1, 2], "Es correcto? (1 = si, 2 = No)")
+                Pagar = TryCatchInt([1, 2], "Es correcto? (1 = si, 2 = No): ")
                 if Pagar == 1: 
                     House.ActualizarPago()
                     break
@@ -262,10 +265,22 @@ def Menu():
             while True:
                 print("Busque la casa")
                 NumBucar = ValidarNumeroCasa()
-                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar")
+                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
                 House = BuscarCasa(NumBucar, calle)
                 print()
                 House.ActualizarInfo()
+        elif Opcion == 4:
+            def MostrarCasas(Lista):
+                for casa in Lista:
+                    casa.MostrarInformacion()
+                    print()
+                print()
+            print("Caalle 1")
+            MostrarCasas(ListaCalle1)
+            print("Caalle 2")
+            MostrarCasas(ListaCalle1)
+            print("Caalle 3")
+            MostrarCasas(ListaCalle1)        
         elif Opcion == 10:
             break
         print()
@@ -274,11 +289,10 @@ def Menu():
         ListaCalle2 = QuickSort(ListaCalle2)
         ListaCalle3 = QuickSort(ListaCalle3)
 
-
 while True:
     print("1 = Iniciar sesion")
     print("2 = Crear Nuevo Usuario")
-    Opcion = TryCatchInt([1,2], "Ingrese una opcion")
+    Opcion = TryCatchInt([1, 2], "Ingrese una opcion: ")
 
     if Opcion == 1:
         def busquedaBinaria(Lista, Valor):
@@ -295,7 +309,7 @@ while True:
                     fin = medio -1
             return False
         while True:
-            Name = TryCatchString("Ingrese el nombre del usuario", None)
+            Name = TryCatchString("Ingrese el nombre del usuario: ", None)
             Encontrado = busquedaBinaria(ListaUsuarios, Name)
             if Encontrado != False:
                 User = ListaUsuarios[Encontrado]
@@ -303,7 +317,7 @@ while True:
             else: print("Ingrese un nombre valido")
         while True:
             i = 0
-            Contraseña = TryCatchString("Ingrese su contraseña", None)
+            Contraseña = TryCatchString("Ingrese su contraseña: ", None)
             if Contraseña == User.Contraseña:
                 print("Ingreso valido")
                 Menu()
@@ -314,8 +328,10 @@ while True:
                 print("Saliendo")
 
     elif Opcion == 2:
-        Nombre = TryCatchString("Ingrese el nombre del usuario", None)
-        Contraseña = TryCatchString("Ingrese una nueva contraseña", None)
+        Nombre = TryCatchString("Ingrese el nombre del usuario: ", None)
+        Contraseña = TryCatchString("Ingrese una nueva contraseña: ", None)
 
         NuevoUser = Usuario(Nombre, Contraseña)
         ListaUsuarios.append(NuevoUser)
+
+        print("Usuario creado con exito")
