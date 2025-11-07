@@ -1,4 +1,4 @@
-from Funciones import TryCatchInt, TryCatchString, VerificarPlaca, CrearVehiculo, IngresarRepresentante
+from Funciones import (TryCatchInt, VerificarPlaca, CrearVehiculo, IngresarRepresentante, IngresarRepresentante)
 from Main import *
 
 class Casa:
@@ -24,18 +24,21 @@ class Casa:
                     print("3 = Salir")
                     OP = TryCatchInt([1, 2, 3], "Ingrese una opcion: ")
                     if OP == 1:
+                        if len(self.Vehiculos) == 0: break
+                        else: pass
                         for i in self.Vehiculos:
                             i.MostrarInformacionVehiculos()
                             print()
                         while True:
-                            placa = TryCatchString("Ingrese la placa que desea eliminar: ")
+                            placa = input("Ingrese la placa que desea eliminar: ").upper().strip()
                             Verificada = VerificarPlaca(placa)
                             if Verificada == True:
                                 for i in self.Vehiculos:
                                     if placa == i.Placas:
+                                        print("Eliminando")
                                         del i
-                                        break
                             else: print("Ingrese una placa valida") 
+                            break
                     elif OP == 2:
                         NuevoVehiculo = CrearVehiculo()
                         self.Vehiculos.append(NuevoVehiculo)

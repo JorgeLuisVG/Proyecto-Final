@@ -1,6 +1,8 @@
 from Clases import Casa, Usuario, Representante
 from Funciones import (TryCatchInt, TryCatchString, IngresarRepresentante, OrdenarCasas,
-QuickSort, ValidarNumeroCasa, BuscarCasa, OrdenarUsuarios, ValidarExistencia, busquedaBinaria)
+QuickSort, ValidarNumeroCasa, BuscarCasa, OrdenarUsuarios, ValidarExistencia, busquedaBinaria, LimpiarPantalla)
+import os
+import time
 
 ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
 ListaUsuarios = []
@@ -87,15 +89,20 @@ def Menu():
                     casa.MostrarInformacion()
                     print()
                 print()
-            if ValidarExistencia(ListaCalle1) == True:
-                print("Caalle 1")
-                MostrarCasas(ListaCalle1)
-            if ValidarExistencia(ListaCalle2) == True:
-                print("Caalle 2")
-                MostrarCasas(ListaCalle2)
-            if ValidarExistencia(ListaCalle3) == True:
-                print("Caalle 3")
-                MostrarCasas(ListaCalle3)
+            LimpiarPantalla()
+            while True:
+                if ValidarExistencia(ListaCalle1) == True:
+                    print("Calle 1")
+                    MostrarCasas(ListaCalle1)
+                if ValidarExistencia(ListaCalle2) == True:
+                    print("Calle 2")
+                    MostrarCasas(ListaCalle2)
+                if ValidarExistencia(ListaCalle3) == True:
+                    print("Calle 3")
+                    MostrarCasas(ListaCalle3)
+                Salir = TryCatchInt([1], "Si desea salir escriba 1")
+                if Salir == 1:
+                    break
         elif Opcion == 5:
             while True:
                 try:
@@ -109,6 +116,7 @@ def Menu():
         if ListaCalle1: ListaCalle1 = QuickSort(ListaCalle1)
         if ListaCalle2: ListaCalle2 = QuickSort(ListaCalle2)
         if ListaCalle3: ListaCalle3 = QuickSort(ListaCalle3)
+        LimpiarPantalla()
 
 while True:
     print("1 = Iniciar sesion")
@@ -133,6 +141,8 @@ while True:
             Contraseña = TryCatchString("Ingrese su contraseña: ", None)
             if Contraseña == User.Contraseña:
                 print("Ingreso valido")
+                time.sleep(2)
+                LimpiarPantalla()
                 Menu()
             else:
                 print("Contraseña incorrecta, intentelo nuevamente")
@@ -152,3 +162,6 @@ while True:
         print("Usuario creado con exito")
 
     ListaUsuarios = OrdenarUsuarios(ListaUsuarios)
+    LimpiarPantalla()
+
+# Retornará un valor 0 

@@ -1,3 +1,6 @@
+import os
+import time
+
 # clases
 class Casa:
     def __init__(self, Numero, Calle, Representante):
@@ -22,18 +25,21 @@ class Casa:
                     print("3 = Salir")
                     OP = TryCatchInt([1, 2, 3], "Ingrese una opcion: ")
                     if OP == 1:
+                        if len(self.Vehiculos) == 0: break
+                        else: pass
                         for i in self.Vehiculos:
                             i.MostrarInformacionVehiculos()
                             print()
                         while True:
-                            placa = TryCatchString("Ingrese la placa que desea eliminar: ")
+                            placa = input("Ingrese la placa que desea eliminar: ").upper().strip()
                             Verificada = VerificarPlaca(placa)
                             if Verificada == True:
                                 for i in self.Vehiculos:
                                     if placa == i.Placas:
+                                        print("Eliminando")
                                         del i
-                                        break
                             else: print("Ingrese una placa valida") 
+                            break
                     elif OP == 2:
                         NuevoVehiculo = CrearVehiculo()
                         self.Vehiculos.append(NuevoVehiculo)
@@ -119,8 +125,8 @@ def VerificarPlaca(Placa):
     ListNum = [str(n) for n in range(10)]
     return (
         len(Placa) == 6 and
-        all([Placa[0] in ListABC, Placa[1] in ListABC, Placa[2] in ListABC,
-             Placa[3] in ListNum, Placa[4] in ListNum, Placa[5] in ListNum])
+        all([Placa[0] in ListNum, Placa[1] in ListNum, Placa[2] in ListNum,
+             Placa[3] in ListABC, Placa[4] in ListABC, Placa[5] in ListABC])
     )
 
 def CrearVehiculo():
@@ -229,18 +235,19 @@ def busquedaBinaria(Lista, Valor):
     while inicio <= fin:
         medio = (inicio + fin) // 2
         if Lista[medio].Nombre == Valor:
-            print("Retornará un valor", medio)
             return medio
         elif Lista[medio].Nombre < Valor:
             inicio = medio + 1
         else:
             fin = medio -1
-    print("Retornará false")
     return -1
 
 def ValidarExistencia(objeto):
     if objeto: return True
     else: return False
+
+def LimpiarPantalla():
+    os.system("cls" if os.name == "nt" else "clear")
 
 # Manejo de datos
     # Lista de calles
@@ -330,15 +337,20 @@ def Menu():
                     casa.MostrarInformacion()
                     print()
                 print()
-            if ValidarExistencia(ListaCalle1) == True:
-                print("Caalle 1")
-                MostrarCasas(ListaCalle1)
-            if ValidarExistencia(ListaCalle2) == True:
-                print("Caalle 2")
-                MostrarCasas(ListaCalle2)
-            if ValidarExistencia(ListaCalle3) == True:
-                print("Caalle 3")
-                MostrarCasas(ListaCalle3)
+            LimpiarPantalla()
+            while True:
+                if ValidarExistencia(ListaCalle1) == True:
+                    print("Calle 1")
+                    MostrarCasas(ListaCalle1)
+                if ValidarExistencia(ListaCalle2) == True:
+                    print("Calle 2")
+                    MostrarCasas(ListaCalle2)
+                if ValidarExistencia(ListaCalle3) == True:
+                    print("Calle 3")
+                    MostrarCasas(ListaCalle3)
+                Salir = TryCatchInt([1], "Si desea salir escriba 1")
+                if Salir == 1:
+                    break
         elif Opcion == 5:
             while True:
                 try:
@@ -352,6 +364,7 @@ def Menu():
         if ListaCalle1: ListaCalle1 = QuickSort(ListaCalle1)
         if ListaCalle2: ListaCalle2 = QuickSort(ListaCalle2)
         if ListaCalle3: ListaCalle3 = QuickSort(ListaCalle3)
+        LimpiarPantalla()
 
 while True:
     print("1 = Iniciar sesion")
@@ -376,6 +389,8 @@ while True:
             Contraseña = TryCatchString("Ingrese su contraseña: ", None)
             if Contraseña == User.Contraseña:
                 print("Ingreso valido")
+                time.sleep(2)
+                LimpiarPantalla()
                 Menu()
             else:
                 print("Contraseña incorrecta, intentelo nuevamente")
@@ -395,3 +410,5 @@ while True:
         print("Usuario creado con exito")
 
     ListaUsuarios = OrdenarUsuarios(ListaUsuarios)
+    LimpiarPantalla()
+

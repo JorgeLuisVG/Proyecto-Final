@@ -1,5 +1,6 @@
 from Clases import Vehiculo
 from Main import *
+import os
 
 def TryCatchInt(ListaOpciones, Texto):
     while True:
@@ -31,8 +32,8 @@ def VerificarPlaca(Placa):
     ListNum = [str(n) for n in range(10)]
     return (
         len(Placa) == 6 and
-        all([Placa[0] in ListABC, Placa[1] in ListABC, Placa[2] in ListABC,
-             Placa[3] in ListNum, Placa[4] in ListNum, Placa[5] in ListNum])
+        all([Placa[0] in ListNum, Placa[1] in ListNum, Placa[2] in ListNum,
+             Placa[3] in ListABC, Placa[4] in ListABC, Placa[5] in ListABC])
     )
 
 def CrearVehiculo():
@@ -141,15 +142,16 @@ def busquedaBinaria(Lista, Valor):
     while inicio <= fin:
         medio = (inicio + fin) // 2
         if Lista[medio].Nombre == Valor:
-            print("Retornará un valor", medio)
             return medio
         elif Lista[medio].Nombre < Valor:
             inicio = medio + 1
         else:
             fin = medio -1
-    print("Retornará false")
     return -1
 
 def ValidarExistencia(objeto):
     if objeto: return True
     else: return False
+
+def LimpiarPantalla():
+    os.system("cls" if os.name == "nt" else "clear")
