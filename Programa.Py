@@ -213,25 +213,78 @@ def BuscarCasa(Numero, CalleB):
         print("Calle inválida")
     return None
 
+def OrdenarUsuarios(Lista):
+    if len(Lista) <= 1:
+        return Lista
+    
+    pivote = Lista[len(Lista)//2].Nombre
+
+    menores = [User for User in Lista if User.Nombre < pivote]
+    iguales = [User for User in Lista if User.Nombre == pivote]
+    mayores = [User for User in Lista if User.Nombre > pivote]
+
+    return OrdenarUsuarios(menores) + iguales + OrdenarUsuarios(mayores)
+
+def busquedaBinaria(Lista, Valor):
+    inicio = 0
+    fin = len(Lista) -1
+
+    while inicio <= fin:
+        medio = (inicio + fin) // 2
+        if Lista[medio].Nombre == Valor:
+            print("Retornará un valor", medio)
+            return medio
+        elif Lista[medio].Nombre < Valor:
+            inicio = medio + 1
+        else:
+            fin = medio -1
+    print("Retornará false")
+    return -1
+
+def ValidarExistencia(objeto):
+    if objeto:
+        return True
+    else: return False
+
+def ExistenciaDeCasas():
+    if ValidarExistencia(ListaCalle1) == False and ValidarExistencia(ListaCalle2) == False and ValidarExistencia(ListaCalle2) == False:
+        return False
+    else: pass
+
+    print("Busque la casa")
+    NumBucar = ValidarNumeroCasa()
+    calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
+    if calle == 1 and ValidarExistencia(ListaCalle1) == True:
+        pass
+    if calle == 2 and ValidarExistencia(ListaCalle2)== True:
+        pass
+    if calle == 3 and ValidarExistencia(ListaCalle3)== True:
+        pass
+    else: return False
+    C = BuscarCasa(NumBucar, calle)
+    return C
+
+
 # Manejo de datos
     # Lista de calles
 ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
-
     # Lista de usuarios
 ListaUsuarios = []
     # Cuota actual 
-CuotaActual = 0
+CuotaActual = None
 
 # Funcionamiento del sistema
 def Menu():
+    global ListaCalle1, ListaCalle2, ListaCalle3
     while True:
         print("Residenciales Piedra Azul")
         print("1 = Registrar casa")
         print("2 = Registrar casas que ya pagaron su cuota")
         print("3 = Actualizar Informacion de las casas")
         print("4 = Ver Informacion de las casas")
+        print("5 = Actualizar precio de la cuota mensual")
         print("10 = salir")
-        Opcion = TryCatchInt([1,2,3,10], "Ingrese una opción: ")
+        Opcion = TryCatchInt([1, 2, 3, 4, 5, 10], "Ingrese una opción: ")
 
         if Opcion == 1:
             NumCasa = ValidarNumeroCasa()
@@ -242,10 +295,10 @@ def Menu():
             OrdenarCasas(NuevaCasa)
         elif Opcion == 2:
             while True:
-                print("Busque la casa")
-                NumBucar = ValidarNumeroCasa()
-                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
-                House = BuscarCasa(NumBucar, calle)
+                House = ExistenciaDeCasas()
+                if House == False: break
+                else: pass
+
                 if House is None:
                     print("No se encontró la casa.")
                     continue
@@ -258,46 +311,44 @@ def Menu():
                     pass
         elif Opcion == 3:
             while True:
-                print("Busque la casa")
-                NumBucar = ValidarNumeroCasa()
-                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
-                House = BuscarCasa(NumBucar, calle)
+                House = ExistenciaDeCasas()
+                if House == False: break
+                else: pass                
                 if House is None:
                     print("No se encontró la casa.")
                     continue
                 print()
                 House.ActualizarInfo()
+                break
         elif Opcion == 4:
             def MostrarCasas(Lista):
                 for casa in Lista:
                     casa.MostrarInformacion()
                     print()
                 print()
-            print("Caalle 1")
-            MostrarCasas(ListaCalle1)
-            print("Caalle 2")
-            MostrarCasas(ListaCalle2)
-            print("Caalle 3")
-            MostrarCasas(ListaCalle3)        
+            if ValidarExistencia(ListaCalle1) == True:
+                print("Caalle 1")
+                MostrarCasas(ListaCalle1)
+            if ValidarExistencia(ListaCalle2) == True:
+                print("Caalle 2")
+                MostrarCasas(ListaCalle2)
+            if ValidarExistencia(ListaCalle3) == True:
+                print("Caalle 3")
+                MostrarCasas(ListaCalle3)
+        elif Opcion == 5:
+            while True:
+                try:
+                    NCP = float(input("Ingrese el nuevo precio de la cuota mensual").strip())
+                except ValueError:
+                    print("Ingrese un precio valido")
+                else: break
+            CuotaActual = NCP
         elif Opcion == 10:
             break
         print()
-
-        ListaCalle1 = QuickSort(ListaCalle1)
-        ListaCalle2 = QuickSort(ListaCalle2)
-        ListaCalle3 = QuickSort(ListaCalle3)
-
-def OrdenarUsuarios(Lista):
-    if len(Lista) <= 1:
-        return Lista
-    
-    pivote = Lista[len(Lista)//2].Nombre
-
-    menores = [User for User in Lista if User.Nombre < pivote]
-    iguales = [User for User in Lista if User.Nombre == pivote]
-    mayores = [User for User in Lista if User.ombre > pivote]
-
-    return OrdenarUsuarios(menores) + iguales + OrdenarUsuarios(mayores)
+        if ListaCalle1: ListaCalle1 = QuickSort(ListaCalle1)
+        if ListaCalle2: ListaCalle2 = QuickSort(ListaCalle2)
+        if ListaCalle3: ListaCalle3 = QuickSort(ListaCalle3)
 
 while True:
     print("1 = Iniciar sesion")
@@ -305,26 +356,14 @@ while True:
     Opcion = TryCatchInt([1, 2], "Ingrese una opcion: ")
 
     if Opcion == 1:
-        def busquedaBinaria(Lista, Valor):
-            inicio = 0
-            fin = len(Lista) -1
-
-            while inicio <= fin:
-                medio = (inicio +fin)//2
-                if Lista[medio].Nombre == Valor:
-                    return medio
-                elif Lista[medio].Nombre < Valor:
-                    inicio = medio+1
-                else:
-                    fin = medio -1
-            return False
         while True:
             Name = TryCatchString("Ingrese el nombre del usuario: ", None)
-            Encontrado = busquedaBinaria(ListaUsuarios, Name)
-            if Encontrado != False:
-                User = ListaUsuarios[Encontrado]
+            UsuarioEncontrado = busquedaBinaria(ListaUsuarios, Name)
+            if UsuarioEncontrado == -1:
+                print("Ingrese un nombre valido")
+            else: 
+                User = ListaUsuarios[UsuarioEncontrado]
                 break
-            else: print("Ingrese un nombre valido")
         while True:
             intentos = 0
             while True:
@@ -350,3 +389,5 @@ while True:
         print("Usuario creado con exito")
 
     ListaUsuarios = OrdenarUsuarios(ListaUsuarios)
+
+# Se está eliminando al representante

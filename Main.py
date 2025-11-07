@@ -1,5 +1,5 @@
 from Clases import Casa, Usuario, Representante
-from Funciones import TryCatchInt, TryCatchString, IngresarRepresentante, OrdenarCasas, QuickSort, ValidarNumeroCasa, BuscarCasa
+from Funciones import TryCatchInt, TryCatchString, IngresarRepresentante, OrdenarCasas, QuickSort, ValidarNumeroCasa, BuscarCasa, OrdenarUsuarios
 
 ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
 ListaUsuarios = []
@@ -68,18 +68,6 @@ def Menu():
         ListaCalle1 = QuickSort(ListaCalle1)
         ListaCalle2 = QuickSort(ListaCalle2)
         ListaCalle3 = QuickSort(ListaCalle3)
-
-def OrdenarUsuarios(Lista):
-    if len(Lista) <= 1:
-        return Lista
-    
-    pivote = Lista[len(Lista)//2].Nombre
-
-    menores = [User for User in Lista if User.Nombre < pivote]
-    iguales = [User for User in Lista if User.Nombre == pivote]
-    mayores = [User for User in Lista if User.ombre > pivote]
-
-    return OrdenarUsuarios(menores) + iguales + OrdenarUsuarios(mayores)
 
 while True:
     print("1 = Iniciar sesion")
