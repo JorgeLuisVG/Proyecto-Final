@@ -54,6 +54,15 @@ class Casa:
         return f"El total es: {Total}"
     def ActualizarPago(self):
         self.PagoMensual = True
+
+    def VerMarbetes(self):
+        Marbetes = []
+        for v in self.Vehiculos:
+            Marbetes.append({"Tipo": v.Tipo, "Placas": v.Placas})
+
+        print(f"Esta casa necsita: {len(Marbetes)} marbete(s)")
+        for m in Marbetes:
+            print(m)
     def MostrarInformacion(self):
         print(f"{self.Numero} calle: {self.Calle}")
         self.Representante.MostrarInfoRepresentante()
@@ -63,6 +72,7 @@ class Casa:
         print("Vehiculos: ")
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
+        self.VerMarbetes()
 
 class Usuario:
     def __init__(self, Nombre, Contraseña):
@@ -296,9 +306,7 @@ def Menu():
             while True:
                 if CuotaActual == -1:
                     print("Defina Primero un precio a la cuota mensual")
-                    break
-                else: pass
-                if ValidarExistencia(ListaCalle1) == False and ValidarExistencia(ListaCalle2) == False and ValidarExistencia(ListaCalle2) == False:
+                    time.sleep(2)
                     break
                 else: pass
 
@@ -309,7 +317,6 @@ def Menu():
                 if calle == 3 and len(ListaCalle3) == 0: break
                 else: 
                     print("Continue")
-
 
                 NumBucar = ValidarNumeroCasa()
 
@@ -325,10 +332,6 @@ def Menu():
                 else: pass
         elif Opcion == 3:
             while True:
-                if ValidarExistencia(ListaCalle1) == False and ValidarExistencia(ListaCalle2) == False and ValidarExistencia(ListaCalle2) == False:
-                    break
-                else: pass
-
                 print("Busque la casa")
                 calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
                 if calle == 1 and len(ListaCalle1) == 0: break
