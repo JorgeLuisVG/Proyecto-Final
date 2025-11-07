@@ -103,27 +103,24 @@ def TryCatchInt(ListaOpciones, Texto):
         elif not ListaOpciones:
             return Ingresar
 
-def TryCatchString(Texto, Lista):
+def TryCatchString(Texto, Lista=None):
     while True:
-        while True:
-            Ingresar = input(f"{Texto} ").strip().title()
-            if Ingresar == "":
-                print("Ingrese un texto valido")
-            else: break
-        if Lista== None:
+        Ingresar = input(f"{Texto} ").strip().title()
+        if Ingresar == "":
+            print("Ingrese un texto valido")
+            continue
+        if Lista is None or Ingresar in Lista:
             return Ingresar
-        elif Lista:
-            if Ingresar in Lista:
-                return Ingresar
-            else:
-                print("Ingrese un valor valido")
+        print("Ingrese un valor valido")
 
 def VerificarPlaca(Placa):
-    ListABC = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-    ListNum = [str(n) for n in range(9)]
-    if Placa[0] in ListABC and Placa[1] in ListABC and Placa[2] in ListABC and Placa[3] in ListNum and Placa[4] in ListNum and Placa[5] in ListNum:
-        return True
-    else: return False
+    ListABC = [chr(n) for n in range(65, 91)]
+    ListNum = [str(n) for n in range(10)]
+    return (
+        len(Placa) == 6 and
+        all([Placa[0] in ListABC, Placa[1] in ListABC, Placa[2] in ListABC,
+             Placa[3] in ListNum, Placa[4] in ListNum, Placa[5] in ListNum])
+    )
 
 def CrearVehiculo():
     while True:
@@ -145,7 +142,7 @@ def IngresarRepresentante():
     def IngresarTelefono():
         while True:
             numero = TryCatchInt(None, "Ingrese el numero telefonico: ")
-            if len<(numero) == 8:
+            if len(str(numero)) == 8:
                 return numero 
             else: print("Ingrese un numero valido")
     Nombre = TryCatchString("Ingrese el nombre del representante: ", None)
@@ -178,7 +175,7 @@ def ValidarNumeroCasa():
             pass
         else: 
             return False
-        if NumeroHouse[4]:
+        if len(NumeroHouse) == 5:
             if NumeroHouse[4] in [str(N) for N in range(9)]:
                 pass
             else: return False
@@ -199,31 +196,26 @@ def ValidarNumeroCasa():
             print("Ingrese un numero Valido")
 
 def BuscarCasa(Numero, CalleB):
-    Encontrado = True
+    lista_calle = None
     if CalleB == 1:
-        for Casita in ListaCalle1:
-            if Casita.Numero == Numero:
-                return Casita
-            else: Encontrado == False
+        lista_calle = ListaCalle1
     elif CalleB == 2:
-        for Casita in ListaCalle2:
-            if Casita.Numero == Numero:
-                return Casita
-            else: Encontrado == False
+        lista_calle = ListaCalle2
     elif CalleB == 3:
-        for Casita in ListaCalle3:
+        lista_calle = ListaCalle3
+
+    if lista_calle:
+        for Casita in lista_calle:
             if Casita.Numero == Numero:
                 return Casita
-            else: Encontrado == False
-    if Encontrado == False:
         print("La casa que busca no existe")
-        return None
+    else:
+        print("Calle inválida")
+    return None
 
 # Manejo de datos
     # Lista de calles
-ListaCalle1 = []
-ListaCalle2 = []
-ListaCalle3 = []
+ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
 
     # Lista de usuarios
 ListaUsuarios = []
