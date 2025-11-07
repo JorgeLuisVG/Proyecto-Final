@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime, timedelta
 
 # clases
 class Casa:
@@ -249,6 +250,19 @@ def ValidarExistencia(objeto):
 def LimpiarPantalla():
     os.system("cls" if os.name == "nt" else "clear")
 
+def ReiniciarPagos():
+    global fechaInicio
+    hoy = datetime.now()
+
+    if hoy >= fechaInicio + timedelta(days=30):
+        print("Han pasado 30 días, reiniciando pagos de todas las casas")
+        for lista in [ListaCalle1, ListaCalle2, ListaCalle3]:
+            for casa in lista:
+                casa.PagoMensual = False
+
+        fechaInicio = hoy
+        print("Pagos reiniciados correctamente")
+
 # Manejo de datos
     # Lista de calles
 ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
@@ -256,6 +270,7 @@ ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
 ListaUsuarios = []
     # Cuota actual 
 CuotaActual = -1
+fechaInicio = datetime(2025, 10, 25)
 
 # Funcionamiento del sistema
 def Menu():
@@ -412,3 +427,4 @@ while True:
     ListaUsuarios = OrdenarUsuarios(ListaUsuarios)
     LimpiarPantalla()
 
+    ReiniciarPagos()
