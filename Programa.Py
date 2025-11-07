@@ -51,8 +51,9 @@ class Casa:
         print(f"{self.Numero} calle: {self.Calle}")
         self.Representante.MostrarInfoRepresentante()
         if self.PagoMensual == False:
-            print(f"Cuota mensual {self.VerCuota()} sin pagar")
-        else: print(f"Cuota mensual {self.VerCuota()} pagada")
+            print(f"Cuota mensual {self.VerCuota(CuotaActual)} sin pagar")
+        else: print(f"Cuota mensual {self.VerCuota(CuotaActual)} pagada")
+        print("Vehiculos: ")
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
 
@@ -188,12 +189,9 @@ def ValidarNumeroCasa():
         NumeroCasa = TryCatchString("Ingrese el numero de casa (ej: 1-01)", None)
         if 4 <= len(NumeroCasa) <= 5:
             NumeroValid = ExplorarNumero(NumeroCasa)
-            if NumeroValid == True:
-                return NumeroCasa
-            else:
-                print("Ingrese un numero valido")
-        elif len(NumeroCasa) != 4:
-            print("Ingrese un numero Valido")
+            if NumeroValid == True: return NumeroCasa
+            else: print("Ingrese un numero valido")
+        elif len(NumeroCasa) != 4: print("Ingrese un numero Valido")
 
 def BuscarCasa(Numero, CalleB):
     lista_calle = None
@@ -209,8 +207,7 @@ def BuscarCasa(Numero, CalleB):
             if Casita.Numero == Numero:
                 return Casita
         print("La casa que busca no existe")
-    else:
-        print("Calle inválida")
+    else: print("Calle inválida")
     return None
 
 def OrdenarUsuarios(Lista):
@@ -242,28 +239,8 @@ def busquedaBinaria(Lista, Valor):
     return -1
 
 def ValidarExistencia(objeto):
-    if objeto:
-        return True
+    if objeto: return True
     else: return False
-
-def ExistenciaDeCasas():
-    if ValidarExistencia(ListaCalle1) == False and ValidarExistencia(ListaCalle2) == False and ValidarExistencia(ListaCalle2) == False:
-        return False
-    else: pass
-
-    print("Busque la casa")
-    NumBucar = ValidarNumeroCasa()
-    calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
-    if calle == 1 and ValidarExistencia(ListaCalle1) == True:
-        pass
-    if calle == 2 and ValidarExistencia(ListaCalle2)== True:
-        pass
-    if calle == 3 and ValidarExistencia(ListaCalle3)== True:
-        pass
-    else: return False
-    C = BuscarCasa(NumBucar, calle)
-    return C
-
 
 # Manejo de datos
     # Lista de calles
@@ -271,11 +248,11 @@ ListaCalle1, ListaCalle2, ListaCalle3 = [], [], []
     # Lista de usuarios
 ListaUsuarios = []
     # Cuota actual 
-CuotaActual = None
+CuotaActual = -1
 
 # Funcionamiento del sistema
 def Menu():
-    global ListaCalle1, ListaCalle2, ListaCalle3
+    global ListaCalle1, ListaCalle2, ListaCalle3, CuotaActual
     while True:
         print("Residenciales Piedra Azul")
         print("1 = Registrar casa")
@@ -295,10 +272,26 @@ def Menu():
             OrdenarCasas(NuevaCasa)
         elif Opcion == 2:
             while True:
-                House = ExistenciaDeCasas()
-                if House == False: break
+                if CuotaActual == -1:
+                    print("Defina Primero un precio a la cuota mensual")
+                    break
+                else: pass
+                if ValidarExistencia(ListaCalle1) == False and ValidarExistencia(ListaCalle2) == False and ValidarExistencia(ListaCalle2) == False:
+                    break
                 else: pass
 
+                print("Busque la casa")
+                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
+                if calle == 1 and len(ListaCalle1) == 0: break
+                if calle == 2 and len(ListaCalle2) == 0: break
+                if calle == 3 and len(ListaCalle3) == 0: break
+                else: 
+                    print("Continue")
+
+
+                NumBucar = ValidarNumeroCasa()
+
+                House = BuscarCasa(NumBucar, calle)
                 if House is None:
                     print("No se encontró la casa.")
                     continue
@@ -307,13 +300,24 @@ def Menu():
                 if Pagar == 1: 
                     House.ActualizarPago()
                     break
-                else:
-                    pass
+                else: pass
         elif Opcion == 3:
             while True:
-                House = ExistenciaDeCasas()
-                if House == False: break
-                else: pass                
+                if ValidarExistencia(ListaCalle1) == False and ValidarExistencia(ListaCalle2) == False and ValidarExistencia(ListaCalle2) == False:
+                    break
+                else: pass
+
+                print("Busque la casa")
+                calle = TryCatchInt([1,2,3], "Ingrese la calle donde desea buscar: ")
+                if calle == 1 and len(ListaCalle1) == 0: break
+                if calle == 2 and len(ListaCalle2) == 0: break
+                if calle == 3 and len(ListaCalle3) == 0: break
+                else: 
+                    print("Continue")
+
+                NumBucar = ValidarNumeroCasa()
+
+                House = BuscarCasa(NumBucar, calle)
                 if House is None:
                     print("No se encontró la casa.")
                     continue
@@ -338,13 +342,12 @@ def Menu():
         elif Opcion == 5:
             while True:
                 try:
-                    NCP = float(input("Ingrese el nuevo precio de la cuota mensual").strip())
+                    NCP = float(input("Ingrese el nuevo precio de la cuota mensual: ").strip())
                 except ValueError:
                     print("Ingrese un precio valido")
                 else: break
             CuotaActual = NCP
-        elif Opcion == 10:
-            break
+        elif Opcion == 10: break
         print()
         if ListaCalle1: ListaCalle1 = QuickSort(ListaCalle1)
         if ListaCalle2: ListaCalle2 = QuickSort(ListaCalle2)
@@ -356,6 +359,10 @@ while True:
     Opcion = TryCatchInt([1, 2], "Ingrese una opcion: ")
 
     if Opcion == 1:
+        if ValidarExistencia(ListaUsuarios) == True: pass
+        else: 
+            print("No existen usuarios")
+            continue
         while True:
             Name = TryCatchString("Ingrese el nombre del usuario: ", None)
             UsuarioEncontrado = busquedaBinaria(ListaUsuarios, Name)
@@ -366,18 +373,17 @@ while True:
                 break
         while True:
             intentos = 0
-            while True:
-                Contraseña = TryCatchString("Ingrese su contraseña: ", None)
-                if Contraseña == User.Contraseña:
-                    print("Ingreso valido")
-                    Menu()
+            Contraseña = TryCatchString("Ingrese su contraseña: ", None)
+            if Contraseña == User.Contraseña:
+                print("Ingreso valido")
+                Menu()
+            else:
+                print("Contraseña incorrecta, intentelo nuevamente")
+                intentos += 1
+                if intentos == 3:
+                    print("Demasiados intentos fallidos. Saliendo...")
                     break
-                else:
-                    print("Contraseña incorrecta, intentelo nuevamente")
-                    intentos += 1
-                    if intentos == 3:
-                        print("Demasiados intentos fallidos. Saliendo...")
-                        break
+            break
 
     elif Opcion == 2:
         Nombre = TryCatchString("Ingrese el nombre del usuario: ", None)
@@ -389,5 +395,3 @@ while True:
         print("Usuario creado con exito")
 
     ListaUsuarios = OrdenarUsuarios(ListaUsuarios)
-
-# Se está eliminando al representante

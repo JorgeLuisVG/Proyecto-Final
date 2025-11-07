@@ -53,8 +53,9 @@ class Casa:
         print(f"{self.Numero} calle: {self.Calle}")
         self.Representante.MostrarInfoRepresentante()
         if self.PagoMensual == False:
-            print(f"Cuota mensual {self.VerCuota()} sin pagar")
-        else: print(f"Cuota mensual {self.VerCuota()} pagada")
+            print(f"Cuota mensual {self.VerCuota(CuotaActual)} sin pagar")
+        else: print(f"Cuota mensual {self.VerCuota(CuotaActual)} pagada")
+        print("Vehiculos: ")
         for vehiculo in self.Vehiculos:
             vehiculo.MostrarInformacionVehiculos()
 
@@ -88,3 +89,4 @@ class Representante:
         print(f"Numero de telefono:     {self.Telefono}")
     def __del__(self):
         print("Se está eliminando al representante")
+
