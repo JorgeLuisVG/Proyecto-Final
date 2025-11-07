@@ -78,8 +78,6 @@ class Usuario:
     def __init__(self, Nombre, Contraseña):
         self.Nombre = Nombre
         self.Contraseña = Contraseña
-    def CambiarContraseña(self, NuevaContraseña):
-        self.Contraseña = NuevaContraseña
 
 class Vehiculo:
     def __init__(self, Tipo, Placas, Marca):
